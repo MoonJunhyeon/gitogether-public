@@ -1,0 +1,25 @@
+import { contextBridge, ipcRenderer } from 'electron'
+
+contextBridge.exposeInMainWorld('gto', {
+  platform: process.platform,
+  githubApi: 'https://api.github.com',
+  getTheme: (): Promise<'system' | 'light' | 'dark'> => ipcRenderer.invoke('theme:get'),
+  setTheme: (theme: 'system' | 'light' | 'dark'): Promise<void> => ipcRenderer.invoke('theme:set', theme),
+  getToken: (): Promise<string | null> => ipcRenderer.invoke('token:get'),
+  setToken: (token: string): Promise<void> => ipcRenderer.invoke('token:set', token),
+  setJira: (email: string, token: string): Promise<void> => ipcRenderer.invoke('jira:set', email, token),
+  jiraConfigured: (): Promise<boolean> => ipcRenderer.invoke('jira:configured'),
+  jiraGet: (baseUrl: string, path: string): Promise<any> => ipcRenderer.invoke('jira:get', baseUrl, path),
+  setClaudeKey: (key: string): Promise<void> => ipcRenderer.invoke('claude:set', key),
+  claudeConfigured: (): Promise<boolean> => ipcRenderer.invoke('claude:configured'),
+  getEngine: (): Promise<string> => ipcRenderer.invoke('summary:engine'),
+  setEngine: (engine: string): Promise<void> => ipcRenderer.invoke('summary:setEngine', engine),
+  summarize: (text: string): Promise<string> => ipcRenderer.invoke('claude:summarize', text),
+  ask: (id: string, text: string, repos: string[]): Promise<string> => ipcRenderer.invoke('assistant:ask', id, text, repos),
+  cancelAsk: (id: string): Promise<void> => ipcRenderer.invoke('assistant:cancel', id),
+  autoRepoDir: (repo: string): Promise<void> => ipcRenderer.invoke('assistant:autoDir', repo),
+  repoDirs: (): Promise<Record<string, string>> => ipcRenderer.invoke('assistant:dirs'),
+  pickRepoDir: (repo: string): Promise<string | null> => ipcRenderer.invoke('assistant:pickDir', repo),
+  jobLog: (repo: string, jobId: number): Promise<string> => ipcRenderer.invoke('gh:jobLog', repo, jobId),
+  putSecret: (repo: string, name: string, value: string): Promise<void> => ipcRenderer.invoke('gh:putSecret', repo, name, value),
+})

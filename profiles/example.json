@@ -1,0 +1,14 @@
+{
+  "name": "Sample-App",
+  "jira": {
+    "baseUrl": "https://your-site.atlassian.net",
+    "project": "PRJ",
+    "types": { "epic": "10000", "issue": "10001", "subtask": "10002" }
+  },
+  "repos": ["your-org/your-repo"],
+  "label": "jira",
+  "mapping": { "epic": "milestone" },
+  "assignees": {
+    "홍길동": "<Jira accountId>"
+  }
+}

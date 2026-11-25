@@ -1,0 +1,8 @@
+{
+  "name": "gitogether-actions",
+  "private": true,
+  "description": "대상 레포의 .github/gto/ 에 복사해 쓰는 Actions 스크립트 (sync, worklog)",
+  "scripts": {
+    "test": "node --test sync.test.mjs"
+  }
+}
